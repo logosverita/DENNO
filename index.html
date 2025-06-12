@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電脳戦 CTF</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #main-container {
+            display: flex;
+            width: 1000px;
+        }
+        #command-list {
+            width: 200px;
+            height: 600px;
+            background-color: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            margin-right: 10px;
+            overflow-y: auto;
+        }
+        #game-container {
+            width: 800px;
+            height: 600px;
+        }
+        #chat-container {
+            width: 1000px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #00ff00;
+            margin-top: 10px;
+        }
+        #chat-log {
+            height: 270px;
+            overflow-y: auto;
+            padding: 5px;
+            background-color: #0a0a0a;
+            color: #00ff00;
+        }
+        #chat-input-container {
+            display: flex;
+            height: 30px;
+        }
+        #chat-input {
+            flex-grow: 1;
+            background-color: #0a0a0a;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px;
+        }
+        #chat-send {
+            width: 80px;
+            background-color: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            cursor: pointer;
+        }
+        .system-message { color: #ffff00; }
+        .player-message { color: #00ffff; }
+        .ai-message { color: #00ff00; }
+        .enemy-message { color: #ff00ff; }
+        .error-message { color: #ff0000; }
+        .command-category {
+            color: #ffff00;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .command-item {
+            margin-left: 10px;
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main-container">
+        <div id="command-list">
+            <h3 style="color: #00ffff; text-align: center; margin-top: 0;">コマンド一覧</h3>
+            
+            <div class="command-category">■ BOT操作</div>
+            <div class="command-item">B1 scan (s)</div>
+            <div class="command-item">B2 hack (h)</div>
+            <div class="command-item">B3 defend (d)</div>
+            <div class="command-item">B4 replicate (r)</div>
+            <div class="command-item">B5 decoy (dec)</div>
+            
+            <div class="command-category">■ 移動</div>
+            <div class="command-item">B1 move 3 5 (m)</div>
+            
+            <div class="command-category">■ 管理</div>
+            <div class="command-item">new (create)</div>
+            <div class="command-item">B1 delete (del)</div>
+            <div class="command-item">B1 status (st)</div>
+            
+            <div class="command-category">■ その他</div>
+            <div class="command-item">help (h)</div>
+            
+            <div class="command-category">■ 例</div>
+            <div class="command-item">B1 s - スキャン</div>
+            <div class="command-item">B2 h - 侵入</div>
+            <div class="command-item">B3 m 4 5 - 移動</div>
+        </div>
+        <div id="game-container"></div>
+    </div>
+    <div id="chat-container">
+        <div id="chat-log"></div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="コマンドを入力...">
+            <button id="chat-send">送信</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/server.js"></script>
+    <script src="js/bot.js"></script>
+    <script src="js/command-interpreter.js"></script>
+    <script src="js/title-scene.js"></script>
+    <script src="js/game-scene.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
