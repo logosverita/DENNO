@@ -620,7 +620,7 @@ class GameScene extends Phaser.Scene {
         
         this.addChatMessage('SYSTEM', resultText);
     }
-    
+}
     // 分散型ウィルス（DDoS）攻撃を実行
     performDDoSAttack(targetX, targetY) {
         // 対象サーバーの確認

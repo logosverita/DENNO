@@ -60,6 +60,15 @@ class Server {
     
     // 防御レベルを設定
     setDefenseLevel(level) {
+        // DDoS攻撃中は防御レベルを上げられない
+        if (this.ddosActive && level > this.defenseLevel) {
+            const scene = this.sprite ? this.sprite.scene : null;
+            if (scene) {
+                scene.addChatMessage('ERROR', `サーバー(${this.gridX},${this.gridY})はDDoS攻撃中のため防御レベルを上げられません`);
+            }
+            return this;
+        }
+        
         this.defenseLevel = Math.min(3, Math.max(0, level));
         this.updateVisuals();
         return this;
