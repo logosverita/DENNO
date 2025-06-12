@@ -108,6 +108,35 @@ class CommandInterpreter {
             case 'del':
                 return this.deleteBot(botId);
                 
+            // 新機能
+            case 'awall':
+            case 'aw':
+                return this.performBotAction(botId, 'awall');
+                
+            case 'worm':
+            case 'w':
+                return this.performBotAction(botId, 'worm');
+                
+            case 'backdoor':
+            case 'bd':
+                return this.performBotAction(botId, 'backdoor');
+                
+            case 'honeypot':
+            case 'hp':
+                return this.performBotAction(botId, 'honeypot');
+                
+            case 'trojan':
+            case 'tj':
+                return this.performBotAction(botId, 'trojan');
+                
+            case 'timebomb':
+            case 'tb':
+                return this.performBotAction(botId, 'timebomb');
+                
+            case 'decoybot':
+            case 'db':
+                return this.performBotAction(botId, 'decoybot');
+                
             default:
                 this.scene.addChatMessage('ERROR', `不明なアクション「${action}」です。「ヘルプ」と入力してコマンド一覧を表示します。`);
                 return false;
@@ -118,28 +147,33 @@ class CommandInterpreter {
     showHelp() {
         const helpText = [
             '【コマンド一覧】',
-            '■ 簡略化コマンド:',
+            '■ 基本コマンド:',
             '・B1 scan (s) - Bot1でスキャン実行',
-            '・B2 hack (h) - Bot2で侵入実行',
-            '・B3 defend (d) - Bot3で防御実行',
-            '・B4 replicate (r) - Bot4で複製実行',
-            '・B5 decoy (dec) - Bot5で偽装実行',
-            '・B6 move 3 5 (m) - Bot6を(3,5)に移動',
-            '・B7 status (st) - Bot7の状態表示',
-            '・B8 delete (del) - Bot8を削除',
+            '・B1 hack (h) - Bot1で侵入実行',
+            '・B1 defend (d) - Bot1で防御実行',
+            '・B1 replicate (r) - Bot1で複製実行',
+            '・B1 decoy (dec) - Bot1で偽装実行',
+            '・B1 move 3 5 (m) - Bot1を(3,5)に移動',
+            '・B1 status (st) - Bot1の状態表示',
+            '・B1 delete (del) - Bot1を削除',
             '・new (create) - 新規BOT作成',
             '・help (h) - コマンド一覧表示',
             '',
-            '■ 従来のコマンド:',
-            '・新しいbotを作成 - 新規BOTを作成 (コスト: 30)',
-            '・botXを削除 - 指定したBOTを削除 (回収: 15)',
-            '・botXを(Y,Z)に移動 - 指定座標へ移動',
-            '・botXでスキャン - 周囲4マスの情報取得',
-            '・botXで侵入 - 現在地のサーバー制圧を試みる',
-            '・botXで防御 - 防御レベルを+1（最大3）',
-            '・botXで複製 - 隣接マスに新BOT作成',
-            '・botXで偽装 - 偽フラグを設置',
-            '・botXの状態 - BOT情報表示'
+            '■ 特殊コマンド:',
+            '・B1 awall (aw) - 攻性防壁を設置 (コスト: 40)',
+            '  侵入を試みた敵BOTを破壊または無効化する防御システム',
+            '・B1 worm (w) - ワームを設置 (コスト: 45)',
+            '  15秒ごとに自動的に周囲をスキャンするプログラム',
+            '・B1 backdoor (bd) - バックドアを設置 (コスト: 35)',
+            '  制圧を失った後でも60%の確率で再侵入できる',
+            '・B1 honeypot (hp) - ハニーネットを設置 (コスト: 25)',
+            '  侵入してきた敵BOTを一時的に無効化する罠',
+            '・B1 trojan (tj) - トロイの木馬を設置 (コスト: 50)',
+            '  15秒後に80%の確率で敵サーバーを自動的に制圧',
+            '・B1 timebomb (tb) - タイムボムを設置 (コスト: 45)',
+            '  制圧されると30秒後に50%の確率で自動的に奪還',
+            '・B1 decoybot (db) - デコイBOTを作成 (コスト: 20)',
+            '  敵の注意を引きつける偽のBOT'
         ];
         
         helpText.forEach(text => {

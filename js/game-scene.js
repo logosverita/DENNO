@@ -7,6 +7,8 @@ class GameScene extends Phaser.Scene {
         this.servers = [];
         this.playerBots = [];
         this.enemyBots = [];
+        this.playerDecoyBots = []; // デコイBOT用
+        this.enemyDecoyBots = []; // デコイBOT用
         this.nextBotId = 1;
         this.networkConnections = []; // ネットワーク接続を保存
         
@@ -562,7 +564,9 @@ class GameScene extends Phaser.Scene {
     // 指定座標にBOTがいるか確認
     isBotAt(x, y) {
         return this.playerBots.some(bot => bot.gridX === x && bot.gridY === y) || 
-               this.enemyBots.some(bot => bot.gridX === x && bot.gridY === y);
+               this.enemyBots.some(bot => bot.gridX === x && bot.gridY === y) ||
+               (this.playerDecoyBots && this.playerDecoyBots.some(bot => bot.gridX === x && bot.gridY === y)) ||
+               (this.enemyDecoyBots && this.enemyDecoyBots.some(bot => bot.gridX === x && bot.gridY === y));
     }
     
     // 次のBOT IDを取得
