@@ -110,10 +110,10 @@ class GameScene extends Phaser.Scene {
         
         graphics.strokePath();
         
-        // 座標番号を表示（チェス盤のように）
+        // 座標番号を表示（線の延長線上に配置）
         // 上側の数字（X座標）
         for (let x = 0; x < CONFIG.GRID_SIZE; x++) {
-            const posX = x * CONFIG.GRID_CELL_SIZE + CONFIG.GRID_OFFSET_X + CONFIG.GRID_CELL_SIZE / 2;
+            const posX = x * CONFIG.GRID_CELL_SIZE + CONFIG.GRID_OFFSET_X;
             const posY = CONFIG.GRID_OFFSET_Y - 15;
             
             this.add.text(posX, posY, `${x}`, {
@@ -126,7 +126,7 @@ class GameScene extends Phaser.Scene {
         // 左側の数字（Y座標）
         for (let y = 0; y < CONFIG.GRID_SIZE; y++) {
             const posX = CONFIG.GRID_OFFSET_X - 15;
-            const posY = y * CONFIG.GRID_CELL_SIZE + CONFIG.GRID_OFFSET_Y + CONFIG.GRID_CELL_SIZE / 2;
+            const posY = y * CONFIG.GRID_CELL_SIZE + CONFIG.GRID_OFFSET_Y;
             
             this.add.text(posX, posY, `${y}`, {
                 font: '14px Courier',
