@@ -104,13 +104,19 @@ class CommandInterpreter {
         
         // 特殊コマンド解析
         
-        // BOT指定コマンド（例: bot1 move 3 5）
-        const botCommandMatch = command.match(/bot(\d+)\s+(\w+)(?:\s+(\d+))?(?:\s+(\d+))?/i);
+        // BOT指定コマンド（例: bot1 move 3 5 または b1 m 35）
+        const botCommandMatch = command.match(/(?:bot|b)(\d+)\s+(\w+)(?:\s+(\d+))?(?:\s+(\d+))?/i);
         if (botCommandMatch) {
             const botId = parseInt(botCommandMatch[1]);
             const action = botCommandMatch[2].toLowerCase();
-            const param1 = botCommandMatch[3] ? parseInt(botCommandMatch[3]) : null;
-            const param2 = botCommandMatch[4] ? parseInt(botCommandMatch[4]) : null;
+            let param1 = botCommandMatch[3] ? parseInt(botCommandMatch[3]) : null;
+            let param2 = botCommandMatch[4] ? parseInt(botCommandMatch[4]) : null;
+            
+            // b1 m 11 形式の処理（2桁の数字を座標として解釈）
+            if (param1 !== null && param1 >= 10 && param2 === null) {
+                param2 = param1 % 10;
+                param1 = Math.floor(param1 / 10);
+            }
             
             return this.executeShortCommand(botId, action, param1, param2);
         }

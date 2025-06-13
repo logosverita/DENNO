@@ -18,6 +18,9 @@ class GameScene extends Phaser.Scene {
         
         // UI要素
         this.statusPanel = null;
+        
+        // タイトルに戻るボタン
+        this.titleButton = null;
         this.powerText = null;
         this.powerBar = null;
         this.botCountText = null;
@@ -50,6 +53,9 @@ class GameScene extends Phaser.Scene {
         
         // UI作成
         this.createUI();
+        
+        // タイトルに戻るボタン
+        this.createTitleButton();
         
         // コマンドインタープリター初期化
         this.commandInterpreter = new CommandInterpreter(this);
@@ -420,6 +426,22 @@ class GameScene extends Phaser.Scene {
         }
     }
     
+    // タイトルに戻るボタンを作成
+    createTitleButton() {
+        this.titleButton = this.add.text(750, 30, 'タイトルへ', {
+            font: '16px Courier',
+            fill: '#ffffff',
+            backgroundColor: '#003366',
+            padding: { x: 10, y: 5 }
+        });
+        this.titleButton.setOrigin(0.5);
+        this.titleButton.setInteractive({ useHandCursor: true });
+        
+        this.titleButton.on('pointerdown', () => {
+            this.scene.start('TitleScene');
+        });
+    }
+    
     // チャットメッセージ追加
     addChatMessage(type, message) {
         const chatLog = document.getElementById('chat-log');
@@ -615,7 +637,7 @@ class GameScene extends Phaser.Scene {
         restartButton.setInteractive({ useHandCursor: true });
         
         restartButton.on('pointerdown', () => {
-            this.scene.restart();
+            this.scene.start('TitleScene');
         });
         
         this.addChatMessage('SYSTEM', resultText);

@@ -8,25 +8,25 @@ class TitleScene extends Phaser.Scene {
         // 背景
         this.add.rectangle(400, 300, 800, 600, 0x0a0a0a);
         
-        // タイトルロゴ（ブロック状）
-        this.createBlockLogo(400, 150);
+        // ASCII Artで「CyberProtocol」を表示
+        this.createAsciiTitle(400, 200);
         
-        // タイトルテキスト
-        this.add.text(400, 250, '電 脳 戦', {
-            font: '48px "MS Gothic", monospace',
+        // タイトルテキスト（小さめに）
+        this.add.text(400, 350, '電 脳 戦', {
+            font: '36px "MS Gothic", monospace',
             fill: '#00ffff',
             align: 'center'
         }).setOrigin(0.5);
         
         // サブタイトル
-        this.add.text(400, 300, 'CYBER WARFARE', {
+        this.add.text(400, 400, 'CYBER WARFARE', {
             font: '24px "Courier New", monospace',
             fill: '#00ff00',
             align: 'center'
         }).setOrigin(0.5);
         
         // 点滅するプレスエンター
-        const pressEnter = this.add.text(400, 400, '[PRESS ENTER]', {
+        const pressEnter = this.add.text(400, 450, '[PRESS ENTER]', {
             font: '20px "Courier New", monospace',
             fill: '#ffffff',
             align: 'center'
@@ -62,60 +62,31 @@ class TitleScene extends Phaser.Scene {
         this.createBackgroundEffect();
     }
     
-    // ブロック状のロゴを作成
-    createBlockLogo(centerX, centerY) {
-        const blockSize = 15;
-        const gap = 2;
-        const color = 0x00ffff;
-        
-        // "電" の形を表現するブロック配置
-        const denPattern = [
-            [1,1,1,1,1],
-            [1,0,0,0,0],
-            [1,1,1,1,0],
-            [1,0,0,0,0],
-            [1,1,1,1,1]
+    // ASCII Artで「CyberProtocol」を表示
+    createAsciiTitle(centerX, centerY) {
+        const asciiArt = [
+            " .d8888b.           888                     8888888b.                888                            888 ",
+            "d88P  Y88b          888                     888   Y88b               888                            888 ",
+            "888    888          888                     888    888               888                            888 ",
+            "888         888  888 88888b.   .d88b.       888   d88P 888d888  .d88888  .d88b.   .d8888b  .d88b.  888 ",
+            "888         888  888 888 \"88b d8P  Y8b      8888888P\"  888P\"   d88\" 888 d88\"\"88b d88P\"    d88\"\"88b 888 ",
+            "888    888  888  888 888  888 88888888      888        888     888  888 888  888 888      888  888 888 ",
+            "Y88b  d88P  Y88b 888 888 d88P Y8b.          888        888     Y88b 888 Y88..88P Y88b.    Y88..88P 888 ",
+            " \"Y8888P\"    \"Y88888 88888P\"   \"Y8888       888        888      \"Y88888  \"Y88P\"   \"Y8888P  \"Y88P\"  888 "
         ];
         
-        // "脳" の形を表現するブロック配置
-        const nouPattern = [
-            [1,1,1,1,1],
-            [1,0,0,0,1],
-            [1,1,1,1,1],
-            [1,0,0,0,1],
-            [1,0,0,0,1]
-        ];
+        const style = {
+            font: '12px "Courier New", monospace',
+            fill: '#00ffff',
+            align: 'center'
+        };
         
-        // "戦" の形を表現するブロック配置
-        const senPattern = [
-            [1,1,1,1,1],
-            [1,0,0,0,1],
-            [1,1,1,1,1],
-            [1,0,1,0,0],
-            [1,0,0,0,1]
-        ];
-        
-        // 各文字のブロックを描画
-        this.drawBlockPattern(denPattern, centerX - 120, centerY, blockSize, gap, color);
-        this.drawBlockPattern(nouPattern, centerX, centerY, blockSize, gap, color);
-        this.drawBlockPattern(senPattern, centerX + 120, centerY, blockSize, gap, color);
-    }
-    
-    // ブロックパターンを描画
-    drawBlockPattern(pattern, centerX, centerY, blockSize, gap, color) {
-        const totalWidth = pattern[0].length * (blockSize + gap) - gap;
-        const totalHeight = pattern.length * (blockSize + gap) - gap;
-        const startX = centerX - totalWidth / 2;
+        const textHeight = 14;
+        const totalHeight = asciiArt.length * textHeight;
         const startY = centerY - totalHeight / 2;
         
-        for (let y = 0; y < pattern.length; y++) {
-            for (let x = 0; x < pattern[y].length; x++) {
-                if (pattern[y][x] === 1) {
-                    const blockX = startX + x * (blockSize + gap);
-                    const blockY = startY + y * (blockSize + gap);
-                    this.add.rectangle(blockX, blockY, blockSize, blockSize, color);
-                }
-            }
+        for (let i = 0; i < asciiArt.length; i++) {
+            this.add.text(centerX, startY + i * textHeight, asciiArt[i], style).setOrigin(0.5);
         }
     }
     
