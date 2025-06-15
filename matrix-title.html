@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Warfare</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            color: #0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .title-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 5rem;
+            font-weight: bold;
+            letter-spacing: 4px;
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out forwards;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeIn 3s ease-in-out 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .press-start {
+            margin-top: 50px;
+            font-size: 1.2rem;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .character {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    
+    <div class="title-container">
+        <h1 class="game-title" id="game-title">CYBER WARFARE</h1>
+        <p class="subtitle" id="subtitle">Enter the digital battlefield</p>
+        <p class="press-start">PRESS ANY KEY TO START</p>
+    </div>
+
+    <script>
+        // マトリックス風の背景アニメーション
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // キャンバスをウィンドウサイズに合わせる
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 日本語と英数字の文字セット
+        const japaneseChars = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝ1234567890";
+        const englishChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        const chars = japaneseChars + englishChars;
+
+        // 文字サイズと列数
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+
+        // 各列の開始位置（Y座標）
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        // マトリックスエフェクトの描画
+        function drawMatrix() {
+            // 半透明の黒で前のフレームを少し残す
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 文字の色と設定
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px monospace';
+
+            // 各列の文字を描画
+            for (let i = 0; i < drops.length; i++) {
+                // ランダムな文字を選択
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                
+                // 文字を描画
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // 文字が画面外に出たらリセット、または一定確率でリセット
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                // 文字を下に移動
+                drops[i]++;
+            }
+        }
+
+        // タイトルのアニメーション
+        function animateTitle() {
+            const title = document.getElementById('game-title');
+            const subtitle = document.getElementById('subtitle');
+            
+            // タイトルテキストを一文字ずつ分割してspanで囲む
+            title.innerHTML = title.textContent.split('').map(char => 
+                `<span class="character">${char}</span>`
+            ).join('');
+            
+            // サブタイトルも同様に
+            subtitle.innerHTML = subtitle.textContent.split('').map(char => 
+                `<span class="character">${char}</span>`
+            ).join('');
+            
+            // 各文字をアニメーション
+            const titleChars = document.querySelectorAll('.game-title .character');
+            const subtitleChars = document.querySelectorAll('.subtitle .character');
+            
+            // タイトル文字のアニメーション
+            titleChars.forEach((char, index) => {
+                setTimeout(() => {
+                    char.style.opacity = '1';
+                    char.style.transform = 'translateY(0)';
+                    char.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                }, 100 * index);
+            });
+            
+            // サブタイトル文字のアニメーション（タイトルの後に開始）
+            setTimeout(() => {
+                subtitleChars.forEach((char, index) => {
+                    setTimeout(() => {
+                        char.style.opacity = '1';
+                        char.style.transform = 'translateY(0)';
+                        char.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    }, 50 * index);
+                });
+            }, 100 * titleChars.length + 500);
+        }
+
+        // ウィンドウリサイズ時にキャンバスサイズを調整
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // アニメーションの開始
+        setInterval(drawMatrix, 50);
+        
+        // ページ読み込み後にタイトルアニメーションを開始
+        window.onload = animateTitle;
+        
+        // キー入力でゲーム開始（ここではアラートを表示するだけ）
+        document.addEventListener('keydown', () => {
+            alert('ゲームを開始します！');
+            // ここに実際のゲーム開始処理を追加
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@ const gameConfig = {
     height: 600,
     backgroundColor: CONFIG.COLORS.BACKGROUND,
     parent: 'game-container',
-    scene: [TitleScene, GameScene]
+    scene: [MatrixTitleScene, TitleScene, GameScene]
 };
 
 // ゲーム初期化
