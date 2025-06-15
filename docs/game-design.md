@@ -264,5 +264,3 @@ const DECOY_COOLDOWN = 8000;
 const BASE_HACK_RATE = 0.8;
 const DEFENSE_REDUCTION = 0.2;
 ```
-
-このドキュメントを参照することで、他のAIや開発者が同じゲームを再現できるようになります。
